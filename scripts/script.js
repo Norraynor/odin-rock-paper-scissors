@@ -8,31 +8,50 @@ const computerChoice = getComputerChoice();
 let playerSelection;
 let roundNumber = 1;
 let playerScore=0;
-let computerScore=0;
+let computerScore = 0;
+
+const result = document.querySelector(".result-text");
+const score = document.querySelector(".score");
+
+const gameButtons = document.querySelectorAll('button');
+gameButtons.forEach((button) => button.addEventListener('click', function (e) {
+    let playerChoice = getPlayerChoice(e.target.dataset.value);    
+    printResult(playRound(playerChoice, getComputerChoice()));
+}))
+
+function printResult(roundResult) {
+    if (roundResult === null) {
+        return;
+    }
+    result.textContent = roundResult + `\n Score is ${playerScore}:${computerScore} `;
+    score.textContent = `Score is ${playerScore}:${computerScore}`;
+}
 
 function getComputerChoice(){
     let computerChoice = Math.floor(Math.random()*3)+1;
     return computerChoice;
 }
 
-function getPlayerChoice(){
-    playerSelection = prompt("Choose (R)ock (P)aper (S)cissors round "+roundNumber+" ");
+function getPlayerChoice(value){
+    playerSelection = value;
     let returnValue;
     if (playerSelection===null) {        
         return console.log("no input");
     }else{
         playerSelection=playerSelection.toLowerCase();
     }
-    switch (playerSelection) {
-        case ("r" || "rock"):
+    switch (playerSelection[0]) {
+        case ("r"):
             returnValue = ROCK;
             break;
-        case ("p" || "paper"):
+        case ("p"):
             returnValue = PAPER;
             break;
-        case ("s" || "scissors"):
+        case ("s"):
             returnValue = SCISSORS;
             break;
+        default:
+            returnValue = "something is wrong";
     }
     return returnValue;
 }
@@ -73,10 +92,10 @@ function playRound(player,computer){
 }
 
 function game(){
-    while(roundNumber<5){
+    /*while(roundNumber<5){
         console.log(playRound(getPlayerChoice(),getComputerChoice()));
         roundNumber++;
-    }
+    }*/
     if (playerScore === computerScore) {
         console.log("it's a draw");
     }
@@ -89,4 +108,3 @@ function game(){
     playerScore = 0;
     computerScore = 0;
 }
-game();
