@@ -9,14 +9,32 @@ let playerSelection;
 let roundNumber = 1;
 let playerScore=0;
 let computerScore = 0;
+const MAX_SCORE = 5;
+let playable = true;
 
 const result = document.querySelector(".result-text");
 const score = document.querySelector(".score");
 
 const gameButtons = document.querySelectorAll('button');
 gameButtons.forEach((button) => button.addEventListener('click', function (e) {
-    let playerChoice = getPlayerChoice(e.target.dataset.value);    
-    printResult(playRound(playerChoice, getComputerChoice()));
+    let playerChoice = getPlayerChoice(e.target.dataset.value);  
+    if (playable) {
+        printResult(playRound(playerChoice, getComputerChoice()));        
+    }
+
+    if (playerScore < MAX_SCORE && computerScore < MAX_SCORE) {  
+        //go next round
+        playable = true;
+    } else {
+        //declare winner
+        playable = false;
+        if (playerScore > computerScore) {            
+            score.textContent = `You win! ${playerScore}:${computerScore}`;
+        } else {
+            score.textContent = `You lose! ${playerScore}:${computerScore}`;
+            
+        }
+    }
 }))
 
 function printResult(roundResult) {
