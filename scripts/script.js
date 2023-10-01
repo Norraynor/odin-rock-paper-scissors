@@ -108,10 +108,6 @@ function playRound(player,computer){
 }
 
 function game(){
-    /*while(roundNumber<5){
-        console.log(playRound(getPlayerChoice(),getComputerChoice()));
-        roundNumber++;
-    }*/
     if (playerScore === computerScore) {
         console.log("it's a draw");
     }
